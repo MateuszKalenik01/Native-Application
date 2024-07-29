@@ -1,0 +1,34 @@
+[2024-07-29 11:56:44] [1] [WARN] Reporting disabled: using no op test run registrar
+[2024-07-29 11:56:44] [1] [INFO] 
+=========== WebDriver configuration ===========
+selenium_url=http://localhost:4723/
+language=en_US
+-------------- Driver capabilities ------------
+appPackage=com.saucelabs.mydemoapp.ios
+noReset=true
+bundleId=com.saucelabs.mydemoapp.ios
+autoGrantPermissions=true
+============= Test configuration ==============
+custom_capabilities=_config-ios.properties
+===============================================
+
+[2024-07-29 11:56:44] [1] [INFO] Loading capabilities to global context from _config-ios.properties
+[2024-07-29 11:56:44] [1] [INFO] Custom capabilities properties loaded: '_config-ios.properties'
+[2024-07-29 11:56:44] [1] [INFO] Set custom property: capabilities.platformName; value: iOS
+[2024-07-29 11:56:44] [1] [INFO] Set custom property: locationServicesAuthorized; value: true
+[2024-07-29 11:56:44] [1] [INFO] Set custom property: capabilities.deviceName; value: iPhone 15 Pro
+[2024-07-29 11:56:44] [1] [INFO] Set custom property: capabilities.deviceType; value: phone
+[2024-07-29 11:56:44] [1] [INFO] Set custom property: capabilities.automationName; value: XCUITest
+[2024-07-29 11:56:44] [1] [INFO] Set custom property: locationServicesEnabled; value: true
+[2024-07-29 11:56:44] [1] [INFO] Set custom property: capabilities.platformVersion; value: 17.5
+[2024-07-29 11:56:44] [1] [INFO] Set custom property: capabilities.udid; value: 
+[2024-07-29 11:56:44] [1] [INFO] Set custom property: capabilities.showXcodeLog; value: true
+[2024-07-29 11:56:44] [1] [WARN] Reporting disabled: using no op test run registrar
+[2024-07-29 11:56:45] [1] [INFO] [TestNG] Running:
+  /Users/mateuszkalenik/Library/Caches/JetBrains/IdeaIC2024.1/temp-testng-customsuite.xml
+
+[2024-07-29 11:56:45] [1] [INFO] Set thread-count=1
+[2024-07-29 11:56:45] [1] [INFO] Set data-provider-thread-count=1
+[2024-07-29 11:56:45] [1] [INFO] CARINA_CORE_VERSION: 1.2.10
+[2024-07-29 11:56:47] [1] [INFO] INFO: '**************** Test execution summary ****************'.
+[2024-07-29 11:56:47] [1] [INFO] RESULT #1: TEST [Native-Application - validateAddingToCart] FAIL [log=file:///Users/mateuszkalenik/IdeaProjects/Native-Application/reports/1722254204090/c008a591-06c2-4560-a7d3-8fbb4f9be25d/test.log]

@@ -1,0 +1,6 @@
+[2024-07-29 10:20:06] [1] [WARN] Reporting disabled: using no op test run registrar
+[2024-07-29 10:20:06] [1] [INFO] TEST [Native-Application - validateAppIsOpening] STARTED at [12:20:06 2024-07-29]
+[2024-07-29 10:20:06] [1] [INFO] Starting driver session...
+[2024-07-29 10:20:07] [1] [INFO] Driver session started.
+[2024-07-29 10:20:07] [1] [INFO] CatalogPageBase()
+[2024-07-29 10:20:07] [1] [INFO] TEST [Native-Application - validateAppIsOpening] PASSED at [12:20:07 2024-07-29]
