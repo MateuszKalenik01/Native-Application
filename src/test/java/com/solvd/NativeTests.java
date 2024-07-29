@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-public class OpenAppTest extends AbstractTest {
+public class NativeTests extends AbstractTest {
 
     @Test(testName = "#TC001", description = "Validate that not logged user can add product to the cart and delete it")
     public void validateAddingToCart() {
