@@ -25,15 +25,15 @@ public abstract class RatingBase extends AbstractUIObject {
     }
 
     public void selectRandomRating() {
-        clickRandomStar(selected, "selected");
+        clickRandomRating(selected, "selected");
 
     }
 
     public void clickRandomUnselectedRating() {
-        clickRandomStar(unselected, "unselected");
+        clickRandomRating(unselected, "unselected");
     }
 
-    private void clickRandomStar(List<ExtendedWebElement> stars, String rating) {
+    private void clickRandomRating(List<ExtendedWebElement> stars, String rating) {
         if (stars != null && !stars.isEmpty()) {
             Random rand = new Random();
             int index = rand.nextInt(stars.size());

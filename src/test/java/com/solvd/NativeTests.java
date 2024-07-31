@@ -11,7 +11,7 @@ import static org.testng.Assert.assertTrue;
 
 public class NativeTests extends AbstractTest {
 
-    @Test(testName = "#TC001", description = "Validate that not logged user can add product to the cart and delete it")
+    @Test(testName = "#TC001", description = "Validate user can add product to the cart and delete it")
     public void validateAddingToCart() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
         ProductBasePage productPage = catalogPage.openRandomProductPage();
@@ -21,7 +21,7 @@ public class NativeTests extends AbstractTest {
         assertTrue(removed, "Item was not removed successfully");
     }
 
-    @Test(testName = "#TC002", description = "Validate that not logged user can rate product on the catalog page")
+    @Test(testName = "#TC002", description = "Validate user can rate product on the catalog page")
     public void validateRatingOnCatalog() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
         ExtendedWebElement okButtonCatalog = catalogPage.rateRandomProduct();
@@ -31,7 +31,7 @@ public class NativeTests extends AbstractTest {
         okButtonCatalog.click();
     }
 
-    @Test(testName = "#TC003", description = "Validate that not logged user can rate product on the product page")
+    @Test(testName = "#TC003", description = "Validate user can rate product on the product page")
     public void validateRatingOnProductPage() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
         ProductBasePage productPage = catalogPage.openRandomProductPage();
