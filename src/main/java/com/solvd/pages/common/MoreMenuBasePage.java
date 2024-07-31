@@ -20,7 +20,7 @@ public abstract class MoreMenuBasePage extends BasePage {
     @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeButton[`name == \"ResetAppState-menu-item\"`]")
     private ExtendedWebElement resetButton;
     @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeButton[`name == \"RESET APP\"`]")
-    private ExtendedWebElement resetButtonInWindow;
+    private ExtendedWebElement resetButtonPopup;
     public MoreMenuBasePage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(drawingButton);
@@ -37,7 +37,7 @@ public abstract class MoreMenuBasePage extends BasePage {
     }
     public MoreMenuBasePage resetApplication(){
         resetButton.click();
-        resetButtonInWindow.click();
+        resetButtonPopup.click();
         acceptButton.click();
         return initPage(getDriver(), MoreMenuBasePage.class);
     }
