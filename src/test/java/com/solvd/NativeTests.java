@@ -42,16 +42,15 @@ public class NativeTests extends AbstractTest {
         okButtonProduct.click();
     }
 
-    @Test(testName = "#TC004", description = "Validate that a square is drawn on the drawing page")
+    @Test(testName = "#TC004", description = "Validate that something is drawn on the drawing page")
     public void validateSquareDrawing() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
         MoreMenuBasePage rightMenuPage = catalogPage.navigateToMore();
         DrawingBasePage drawingPage = rightMenuPage.clickDrawingButton();
 
-        drawingPage.drawSquare();
-        boolean isSquareDrawn = drawingPage.isSquareDrawn();
+        boolean isDrawingChanged = drawingPage.isDrawingChanged();
 
-        Assert.assertTrue(isSquareDrawn, "The square was not drawn successfully.");
+        Assert.assertTrue(isDrawingChanged, "The drawing was not successfully changed.");
     }
 
     @Test(testName = "TC005", description = "Validation if GeoLocation is showing correct Longitude and Latitude")

@@ -57,68 +57,40 @@ public abstract class DrawingBasePage extends BasePage {
                 .perform();
     }
 
-    public boolean isSquareDrawn() {
-        LOGGER.info("Verifying if the square is drawn.");
-        boolean squareDetected = false;
-        try {
-            byte[] screenshotBytes = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
-            BufferedImage fullImg = ImageIO.read(new ByteArrayInputStream(screenshotBytes));
+    public boolean isDrawingChanged() {
+        LOGGER.info("Taking screenshot before drawing.");
+        BufferedImage beforeImg = takeScreenshot();
 
-            try {
-                ImageIO.write(fullImg, "png", new File("fullScreenshot.png"));
-            } catch (IOException e) {
-                LOGGER.error("Failed to save full screenshot.", e);
-            }
+        drawSquare();
 
-            Point point = drawingBackground.getLocation();
-            int eleWidth = drawingBackground.getSize().getWidth();
-            int eleHeight = drawingBackground.getSize().getHeight();
+        LOGGER.info("Taking screenshot after drawing.");
+        BufferedImage afterImg = takeScreenshot();
 
-            BufferedImage eleScreenshot = fullImg.getSubimage(point.getX(), point.getY(), eleWidth, eleHeight);
-
-
-            try {
-                ImageIO.write(eleScreenshot, "png", new File("elementScreenshot.png"));
-            } catch (IOException e) {
-                LOGGER.error("Failed to save subimage.", e);
-            }
-
-            squareDetected = isSquareInImage(eleScreenshot);
-        } catch (IOException e) {
-            LOGGER.error("Failed to capture or process the screenshot.", e);
-        }
-        return squareDetected;
+        return !compareImages(beforeImg, afterImg);
     }
 
-    private boolean isSquareInImage(BufferedImage image) {
-        int startX = -84;
-        int startY = -112;
-        int sideLength = 100;
-       // int blackRGB = Color.GREEN.getRGB();
-        int tolerance = 100;
-        int pixelChangeThreshold = 100;
+    private BufferedImage takeScreenshot() {
+        try {
+            byte[] screenshotBytes = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
+            return ImageIO.read(new ByteArrayInputStream(screenshotBytes));
+        } catch (IOException e) {
+            LOGGER.error("Failed to capture the screenshot.", e);
+            return null;
+        }
+    }
 
-        int changedPixels = 0;
+    private boolean compareImages(BufferedImage img1, BufferedImage img2) {
+        if (img1.getWidth() != img2.getWidth() || img1.getHeight() != img2.getHeight()) {
+            return false;
+        }
 
-        LOGGER.info("Checking pixel density for square detection.");
-        for (int x = startX; x < startX + sideLength; x++) {
-            for (int y = startY; y < startY + sideLength; y++) {
-                int pixelColor = image.getRGB(x, y);
-                if (isColorCloseToBlack(pixelColor, tolerance)) {
-                    changedPixels++;
+        for (int y = 0; y < img1.getHeight(); y++) {
+            for (int x = 0; x < img1.getWidth(); x++) {
+                if (img1.getRGB(x, y) != img2.getRGB(x, y)) {
+                    return false;
                 }
             }
         }
-
-        LOGGER.info("Changed pixels: {}", changedPixels);
-        return changedPixels > pixelChangeThreshold;
-    }
-
-    private boolean isColorCloseToBlack(int rgb, int tolerance) {
-        Color color = new Color(rgb);
-        int red = color.getRed();
-        int green = color.getGreen();
-        int blue = color.getBlue();
-        return (red <= tolerance && green <= tolerance && blue <= tolerance);
+        return true;
     }
 }
