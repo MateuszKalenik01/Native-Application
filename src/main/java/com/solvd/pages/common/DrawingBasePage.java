@@ -61,18 +61,27 @@ public abstract class DrawingBasePage extends BasePage {
         LOGGER.info("Verifying if the square is drawn.");
         boolean squareDetected = false;
         try {
-            WebDriver augmentedDriver = new Augmenter().augment(getDriver());
-            File screenshot = ((TakesScreenshot) augmentedDriver).getScreenshotAs(OutputType.FILE);
-            BufferedImage fullImg = ImageIO.read(screenshot);
+            byte[] screenshotBytes = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
+            BufferedImage fullImg = ImageIO.read(new ByteArrayInputStream(screenshotBytes));
+
+            try {
+                ImageIO.write(fullImg, "png", new File("fullScreenshot.png"));
+            } catch (IOException e) {
+                LOGGER.error("Failed to save full screenshot.", e);
+            }
 
             Point point = drawingBackground.getLocation();
-
             int eleWidth = drawingBackground.getSize().getWidth();
             int eleHeight = drawingBackground.getSize().getHeight();
 
             BufferedImage eleScreenshot = fullImg.getSubimage(point.getX(), point.getY(), eleWidth, eleHeight);
 
-            ImageIO.write(eleScreenshot, "png", new File("drawingBoardScreenshot.png"));
+
+            try {
+                ImageIO.write(eleScreenshot, "png", new File("elementScreenshot.png"));
+            } catch (IOException e) {
+                LOGGER.error("Failed to save subimage.", e);
+            }
 
             squareDetected = isSquareInImage(eleScreenshot);
         } catch (IOException e) {
@@ -85,7 +94,7 @@ public abstract class DrawingBasePage extends BasePage {
         int startX = -84;
         int startY = -112;
         int sideLength = 100;
-        int blackRGB = Color.GREEN.getRGB();
+       // int blackRGB = Color.GREEN.getRGB();
         int tolerance = 100;
         int pixelChangeThreshold = 100;
 

@@ -24,6 +24,7 @@ public abstract class CatalogBasePage extends BasePage {
 
     public CatalogBasePage(WebDriver driver) {
         super(driver);
+        setUiLoadedMarker(catalogScreen);
     }
 
     private ProductBasePage openProductPage(int index) {

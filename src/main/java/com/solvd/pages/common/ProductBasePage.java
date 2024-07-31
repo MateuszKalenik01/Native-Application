@@ -30,6 +30,7 @@ public abstract class ProductBasePage extends BasePage {
 
     public ProductBasePage(WebDriver driver) {
         super(driver);
+        setUiLoadedMarker(addToCartButton);
 
     }
 

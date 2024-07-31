@@ -23,6 +23,7 @@ public abstract class BasePage extends AbstractPage implements IOSUtils {
     protected ExtendedWebElement acceptButton;
     public BasePage(WebDriver driver) {
         super(driver);
+        setUiLoadedMarker(catalogButton);
     }
 
     public CatalogBasePage navigateToCatalog() {

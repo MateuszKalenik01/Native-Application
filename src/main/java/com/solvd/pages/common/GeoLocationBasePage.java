@@ -19,6 +19,7 @@ public class GeoLocationBasePage extends BasePage {
 
     public GeoLocationBasePage(WebDriver driver) {
         super(driver);
+        setUiLoadedMarker(longitude);
     }
 
     public String getLongitude() {

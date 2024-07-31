@@ -38,6 +38,7 @@ public abstract class CartBasePage extends BasePage {
 
     public CartBasePage(WebDriver driver) {
         super(driver);
+        setUiLoadedMarker(goShoppingButton);
     }
 
     public boolean deleteRandomItemFromCart () {
