@@ -8,8 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class PageBase extends AbstractPage implements IOSUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PageBase.class);
+public abstract class BasePage extends AbstractPage implements IOSUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BasePage.class);
 
     @ExtendedFindBy(accessibilityId = "Catalog-tab-item")
     private ExtendedWebElement catalogButton;
@@ -19,26 +19,24 @@ public abstract class PageBase extends AbstractPage implements IOSUtils {
 
     @ExtendedFindBy(accessibilityId = "More-tab-item")
     private ExtendedWebElement moreButton;
-
-    public PageBase(WebDriver driver) {
+    @ExtendedFindBy(accessibilityId = "OK")
+    protected ExtendedWebElement acceptButton;
+    public BasePage(WebDriver driver) {
         super(driver);
     }
 
-    public CatalogPageBase navigateToCatalog() {
-        LOGGER.info("navigateToCatalog()");
+    public CatalogBasePage navigateToCatalog() {
         catalogButton.click();
-        return initPage(getDriver(), CatalogPageBase.class);
+        return initPage(getDriver(), CatalogBasePage.class);
     }
 
-    public CartPageBase navigateToCart() {
-        LOGGER.info("navigateToCart()");
+    public CartBasePage navigateToCart() {
         cartButton.click();
-        return initPage(getDriver(), CartPageBase.class);
+        return initPage(getDriver(), CartBasePage.class);
     }
 
-    public RightMenuPageBase navigateToMore() {
-        LOGGER.info("navigateToMore()");
+    public MoreMenuBasePage navigateToMore() {
         moreButton.click();
-        return initPage(getDriver(), RightMenuPageBase.class);
+        return initPage(getDriver(), MoreMenuBasePage.class);
     }
 }

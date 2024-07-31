@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Random;
 
 @Getter
-public abstract class CartPageBase extends PageBase {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CartPageBase.class);
+public abstract class CartBasePage extends BasePage {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CartBasePage.class);
 
     @ExtendedFindBy(accessibilityId = "GoShopping")
     private ExtendedWebElement goShoppingButton;
@@ -36,14 +36,11 @@ public abstract class CartPageBase extends PageBase {
     @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeCell/XCUIElementTypeStaticText[5]")
     private ExtendedWebElement value;
 
-    public CartPageBase(WebDriver driver) {
+    public CartBasePage(WebDriver driver) {
         super(driver);
-        LOGGER.info("CartPageBase()");
-        setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
-        setUiLoadedMarker(this.cartScreen);
     }
 
-    public boolean deleteRandomItemFromCart() {
+    public boolean deleteRandomItemFromCart () {
         Random rand = new Random();
         int size = removeItemButtons.size();
         int index = rand.nextInt(size);
