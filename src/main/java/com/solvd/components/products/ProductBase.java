@@ -20,7 +20,7 @@ public abstract class ProductBase extends AbstractUIObject {
 
     public void submitProductRating() {
         LOGGER.info("rateProduct()");
-        rating.selectRandomStar();
+        rating.selectRandomRating();
     }
 
 }

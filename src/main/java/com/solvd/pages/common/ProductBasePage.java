@@ -53,7 +53,7 @@ public abstract class ProductBasePage extends BasePage {
     }
 
     public ExtendedWebElement rateProduct() {
-        rating.selectRandomStar();
+        rating.selectRandomRating();
         return acceptButton;
     }
 

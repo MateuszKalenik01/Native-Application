@@ -15,33 +15,32 @@ public abstract class RatingBase extends AbstractUIObject {
     private static final Logger LOGGER = LoggerFactory.getLogger(RatingBase.class);
 
     @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeButton[`name == \"StarSelected Icons\"`]")
-    private List<ExtendedWebElement> selectedStars;
+    private List<ExtendedWebElement> selected;
 
     @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeButton[`name == \"StarUnSelected Icons\"`]")
-    private List<ExtendedWebElement> unselectedStars;
+    private List<ExtendedWebElement> unselected;
 
     public RatingBase(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
-    public void selectRandomStar() {
-        LOGGER.info("selectRandomStar()");
-        clickRandomStar(selectedStars, "selected");
+    public void selectRandomRating() {
+        clickRandomStar(selected, "selected");
+
     }
 
-    public void clickRandomUnselectedStar() {
-        LOGGER.info("clickRandomUnselectedStar()");
-        clickRandomStar(unselectedStars, "unselected");
+    public void clickRandomUnselectedRating() {
+        clickRandomStar(unselected, "unselected");
     }
 
-    private void clickRandomStar(List<ExtendedWebElement> stars, String starType) {
+    private void clickRandomStar(List<ExtendedWebElement> stars, String rating) {
         if (stars != null && !stars.isEmpty()) {
             Random rand = new Random();
             int index = rand.nextInt(stars.size());
-            LOGGER.info("Clicking " + index + " " + starType + " star");
+            LOGGER.info("Clicking " + index + " " + rating);
             stars.get(index).click();
         } else {
-            LOGGER.info("No " + starType + " stars to be clicked");
+            LOGGER.info("No " + rating + " to be clicked");
         }
     }
 }

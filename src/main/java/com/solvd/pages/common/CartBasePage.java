@@ -44,7 +44,6 @@ public abstract class CartBasePage extends BasePage {
         Random rand = new Random();
         int size = removeItemButtons.size();
         int index = rand.nextInt(size);
-        LOGGER.info("removeItemFromCart(" + index + ")");
         removeItemButtons.get(index).click();
         if (!removeItemButtons.isEmpty()) {
             int newSize = removeItemButtons.size();
