@@ -11,16 +11,21 @@ import org.slf4j.LoggerFactory;
 public abstract class MoreMenuBasePage extends BasePage {
     private static final Logger LOGGER = LoggerFactory.getLogger(MoreMenuBasePage.class);
 
-    @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeButton[`name == \"Drawing-menu-item\"`]")
+    @ExtendedFindBy(accessibilityId = "Drawing-menu-item")
     private ExtendedWebElement drawingButton;
 
-    @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeButton[`name == \"GeoLocation-menu-item\"`]")
+    @ExtendedFindBy(accessibilityId = "GeoLocation-menu-item")
     private ExtendedWebElement geoLocationButton;
 
-    @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeButton[`name == \"ResetAppState-menu-item\"`]")
+    @ExtendedFindBy(accessibilityId = "About-menu-item")
+    private ExtendedWebElement aboutButton;
+
+    @ExtendedFindBy(accessibilityId = "ResetAppState-menu-item")
     private ExtendedWebElement resetButton;
-    @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeButton[`name == \"RESET APP\"`]")
+
+    @ExtendedFindBy(accessibilityId = "RESET APP")
     private ExtendedWebElement resetButtonPopup;
+
     public MoreMenuBasePage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(drawingButton);
@@ -41,5 +46,8 @@ public abstract class MoreMenuBasePage extends BasePage {
         acceptButton.click();
         return initPage(getDriver(), MoreMenuBasePage.class);
     }
-
+    public AboutBasePage clickAboutButton() {
+        aboutButton.click();
+        return initPage(getDriver(), AboutBasePage.class);
+    }
 }

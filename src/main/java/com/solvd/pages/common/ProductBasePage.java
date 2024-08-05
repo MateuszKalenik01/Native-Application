@@ -8,6 +8,12 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 @Getter
 public abstract class ProductBasePage extends BasePage {
@@ -28,6 +34,15 @@ public abstract class ProductBasePage extends BasePage {
     @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeOther[`name == \"ProductDetails-screen\"`]/XCUIElementTypeOther[2]/XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[2]")
     private Rating rating;
 
+    @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeOther[`name == \"ProductDetails-screen\"`]/XCUIElementTypeOther[2]/XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[3]")
+    private ExtendedWebElement colorContainer;
+
+    @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeOther[`name == \"ProductDetails-screen\"`]/XCUIElementTypeOther[2]/XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[3]/XCUIElementTypeButton")
+    private List<ExtendedWebElement> colorOptions;
+    @ExtendedFindBy(iosClassChain = "**/XCUIElementTypeOther[`name == 'ProductDetails-screen'`]/**/XCUIElementTypeStaticText[2]")
+    private ExtendedWebElement productNameElement;
+    @Getter
+    private String selectedColor;
     public ProductBasePage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(addToCartButton);
@@ -57,5 +72,37 @@ public abstract class ProductBasePage extends BasePage {
         rating.selectRandomRating();
         return acceptButton;
     }
+    public ExtendedWebElement getRandomColor() {
+        Random random = new Random();
+        int numberOfColors = colorOptions.size();
+        LOGGER.info("Number of colors available: " + numberOfColors);
 
+        if (numberOfColors > 0) {
+            ExtendedWebElement selectedColorElement = colorOptions.get(random.nextInt(numberOfColors));
+            LOGGER.info("Selected color: " + selectedColorElement.getText());
+            return selectedColorElement;
+        } else {
+            throw new NoSuchElementException("No color options available.");
+        }
+    }
+
+    public void addToCartWithRandomColor() {
+        LOGGER.info("Adding product to cart with a random color");
+        ExtendedWebElement randomColor = getRandomColor();
+        selectedColor = extractColorText(randomColor.getAttribute("name"));
+        randomColor.click();
+        addToCartButton.click();
+    }
+    private String extractColorText(String text) {
+        Matcher matcher = Pattern.compile("[A-Z][a-z]*").matcher(text);
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        return text;
+    }
+    public String getProductName() {
+        String productName = productNameElement.getText();
+        LOGGER.info("Product name: " + productName);
+        return productName;
+    }
 }
