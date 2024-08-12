@@ -1,0 +1,5 @@
+reporting.enabled=true
+reporting.project-key=ANDT
+reporting.server.hostname=https://solvdinternal.zebrunner.com
+reporting.server.access-token=jcyOswfKfC2Rm1SSVWw0VhS80z2xtv9DO2JRoOgv4ruK91HFM0
+reporting.run.display-name=

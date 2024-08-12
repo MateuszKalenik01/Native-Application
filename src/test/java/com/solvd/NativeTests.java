@@ -1,120 +1,140 @@
 package com.solvd;
 
-import com.solvd.pages.common.*;
+import com.solvd.demoapp.pages.common.*;
+import com.solvd.demoapp.service.DrawingService;
+import com.solvd.demoapp.service.GeoLocationService;
+import com.zebrunner.agent.core.annotation.TestCaseKey;
 import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.testng.Assert;
-
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
-import static org.testng.Assert.assertTrue;
-
 public class NativeTests extends AbstractTest {
-
-    @Test(testName = "#TC001", description = "Validate user can delete random product inside cart page")
+    @TestCaseKey("ANDT-41")
+    @Test( description = "Validate user can delete product inside cart page")
     public void validateAddingToCart() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
         ProductBasePage productPage = catalogPage.openRandomProductPage();
         CartBasePage cartPage = productPage.addToCartAndOpenCart();
 
-        boolean removed = cartPage.deleteRandomItemFromCart();
-        assertTrue(removed, "Item was not removed successfully");
+        boolean removed = cartPage.deleteItemFromCart(cartPage.getRemoveItemButtons(), cartPage.getNoItemsMessage());
+        Assert.assertTrue(removed, "Item was not removed successfully");
     }
-
-    @Test(testName = "#TC002", description = "Validate user can rate product on the catalog page")
+    @TestCaseKey("ANDT-42")
+    @Test( description = "Validate user can rate product on the catalog page")
     public void validateRatingOnCatalog() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
         ExtendedWebElement okButtonCatalog = catalogPage.rateRandomProduct();
-
-        assertTrue(okButtonCatalog.isDisplayed(), "OK button on catalog page is not displayed");
+        Assert.assertTrue(okButtonCatalog.isDisplayed(), "OK button on catalog page is not displayed");
 
         okButtonCatalog.click();
     }
-
-    @Test(testName = "#TC003", description = "Validate user can rate product on the product page")
+    @TestCaseKey("ANDT-43")
+    @Test( description = "Validate user can rate product on the product page")
     public void validateRatingOnProductPage() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
         ProductBasePage productPage = catalogPage.openRandomProductPage();
         ExtendedWebElement okButtonProduct = productPage.rateProduct();
 
-        assertTrue(okButtonProduct.isDisplayed(), "OK button on product page is not displayed");
+        Assert.assertTrue(okButtonProduct.isDisplayed(), "OK button on product page is not displayed");
 
         okButtonProduct.click();
     }
-
-    @Test(testName = "#TC004", description = "Validate that something is drawn on the drawing page")
+    @TestCaseKey("ANDT-44")
+    @Test( description = "Validate that something is drawn on the drawing page")
     public void validateIsSomethingDrawn() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
-        MoreMenuBasePage rightMenuPage = catalogPage.navigateToMore();
+        MoreMenuBasePage rightMenuPage = catalogPage.getBaseMenu().clickMoreButton();
         DrawingBasePage drawingPage = rightMenuPage.clickDrawingButton();
 
-        boolean isDrawingChanged = drawingPage.isDrawingChanged();
+        DrawingService drawingService = new DrawingService(getDriver());
+        boolean isDrawingChanged = drawingService.isDrawingChanged(drawingPage.getDrawingBackground());
 
         Assert.assertTrue(isDrawingChanged, "The drawing was not successfully changed.");
     }
-
-    @Test(testName = "TC005", description = "Validation if GeoLocation is showing correct Longitude and Latitude")
+    @TestCaseKey("ANDT-45")
+    @Test( description = "Validation if GeoLocation is showing correct Longitude and Latitude")
     public void validateGeoLocation() {
+        GeoLocationService geoLocationService = new GeoLocationService();
 
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
-        MoreMenuBasePage moreMenuPage = catalogPage.navigateToMore();
+        MoreMenuBasePage moreMenuPage = catalogPage.getBaseMenu().clickMoreButton();
         GeoLocationBasePage geoLocationPage = moreMenuPage.clickGeoLocationButton();
 
         String expectedLatitude = R.TESTDATA.get("latitude");
         String expectedLongitude = R.TESTDATA.get("longitude");
 
+        String actualLatitude = geoLocationService.getLatitude(geoLocationPage.getLatitudeElement());
+        String actualLongitude = geoLocationService.getLongitude(geoLocationPage.getLongitudeElement());
 
-        geoLocationPage.validateGeoLocation(expectedLatitude, expectedLongitude);
+        Assert.assertEquals(actualLatitude, expectedLatitude, "Latitude does not match the expected value");
+        Assert.assertEquals(actualLongitude, expectedLongitude, "Longitude does not match the expected value");
     }
-    @Test(testName = "#TC006", description = "Validation if Application reset works")
-    public void validateResetting(){
+    @TestCaseKey("ANDT-46")
+    @Test(description = "Validation if Application reset works")
+    public void validateResetting() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
-        MoreMenuBasePage moreMenuPage = catalogPage.navigateToMore();
-        MoreMenuBasePage resetPage = moreMenuPage.resetApplication();
-        boolean pageOpened = resetPage.isPageOpened();
-        assertTrue(pageOpened, "Rested Application");
+        MoreMenuBasePage moreMenuPage = catalogPage.getBaseMenu().clickMoreButton();
+        boolean isPageReseted = moreMenuPage.resetApplication();
+
+        Assert.assertTrue(isPageReseted, "Rested Application");
     }
-    @Test(testName = "#TC007", description = "Validate sorting by name and price in both ascending and descending order")
+    @TestCaseKey("ANDT-47")
+    @Test( description = "Validate sorting by name and price in both ascending and descending order")
     public void validateSorting() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
 
-        // Validate sorting by name ascending
         catalogPage.sortByNameAscending();
-        assertTrue(catalogPage.isSortedByNameAscending(), "Products are not sorted by name in ascending order");
+        Assert.assertTrue(catalogPage.isSortedByNameAscending(), "Products are not sorted by name in ascending order");
 
-        // Validate sorting by name descending
         catalogPage.sortByNameDescending();
-        assertTrue(catalogPage.isSortedByNameDescending(), "Products are not sorted by name in descending order");
+        Assert.assertTrue(catalogPage.isSortedByNameDescending(), "Products are not sorted by name in descending order");
     }
-    @Test(testName = "#TC008", description = "Add random product with random color to the cart")
-    public void addRandomProductWithRandomColorToCart() {
-        CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
-        ProductBasePage productPage = catalogPage.openRandomProductPage();
 
-        productPage.addToCartWithRandomColor();
-        String selectedColor = productPage.getSelectedColor();
-        CartBasePage cartPage = productPage.navigateToCart();
+   @TestCaseKey("ANDT-48")
+   @Test(description = "Validate that user increase the quantity of a product and add it to the cart")
+   public void validateIncreasingProductQuantity() throws NoSuchFieldException, IllegalAccessException {
+       SoftAssert softAssert = new SoftAssert();
+       
+       CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
+       ProductBasePage productPage = catalogPage.openRandomProductPage();
 
-        assertTrue(cartPage.isProductAddedToCartWithCorrectColor(selectedColor), "Product color in the cart does not match the selected color");
-    }
-    @Test(testName = "#TC009", description ="Validate that user can redirect from application to Web Page")
+       boolean isQuantityIncreased = productPage.updateQuantityIncrement();
+       softAssert.assertTrue(isQuantityIncreased, "Quantity was not increased successfully");
+
+       String valueOnProductPage = productPage.getQuantity().getQuantityElement().getText();
+
+       CartBasePage cartPage = productPage.addToCartAndOpenCart();
+
+       String valueInTheCart = cartPage.getValue();
+       boolean isQuantityTheSame = valueInTheCart.equals(valueOnProductPage);
+       softAssert.assertTrue(isQuantityTheSame, "Quantity in the cart is not the same as on the product page");
+
+       softAssert.assertAll();
+
+   }
+    @TestCaseKey("ANDT-49")
+    @Test( description = "Validate that user can redirect from application to Web Page")
     public void validateRedirectToWeb() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
-        MoreMenuBasePage moreMenuPage = catalogPage.navigateToMore();
-        AboutBasePage aboutPage= moreMenuPage.clickAboutButton();
-        WebBasePage webPage= aboutPage.clickLink();
-        boolean pageOpened = webPage.isPageOpened();
-        assertTrue(pageOpened,"Redirection was unsuccessful");
+        MoreMenuBasePage moreMenuPage = catalogPage.getBaseMenu().clickMoreButton();
+        AboutBasePage aboutPage = moreMenuPage.clickAboutButton();
+        WebBasePage webPage = aboutPage.clickLink();
 
+        boolean pageOpened = webPage.isPageOpened();
+        Assert.assertTrue(pageOpened, "Redirection was unsuccessful");
     }
-    @Test(testName = "#TC010", description = "Add 2 random products with random colors to the cart and check their presence")
+    @TestCaseKey("ANDT-50")
+    @Test( description = "Add 2 random products with random colors to the cart and check their presence")
     public void addTwoRandomProductsWithRandomColorsToCart() {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
         List<String> addedProducts = catalogPage.addTwoRandomProductsWithRandomColorsToCart();
 
-        CartBasePage cartPage = catalogPage.navigateToCart();
-        assertTrue(cartPage.areProductsInCart(addedProducts), "Not all products are present in the cart");
+        CartBasePage cartPage = catalogPage.getBaseMenu().clickCartButton();
+
+        Assert.assertTrue(cartPage.areProductsInCart(cartPage.getProductNames(), addedProducts), "Not all products are present in the cart");
     }
 }
