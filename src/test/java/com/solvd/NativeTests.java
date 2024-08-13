@@ -21,6 +21,7 @@ public class NativeTests extends AbstractTest {
         CartBasePage cartPage = productPage.addToCartAndOpenCart();
 
         boolean removed = cartPage.deleteItemFromCart(cartPage.getRemoveItemButtons(), cartPage.getNoItemsMessage());
+        takeScreenshot();
         Assert.assertTrue(removed, "Item was not removed successfully");
     }
     @TestCaseKey("ANDT-42")
@@ -29,7 +30,7 @@ public class NativeTests extends AbstractTest {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
         ExtendedWebElement okButtonCatalog = catalogPage.rateRandomProduct();
         Assert.assertTrue(okButtonCatalog.isDisplayed(), "OK button on catalog page is not displayed");
-
+        takeScreenshot();
         okButtonCatalog.click();
     }
     @TestCaseKey("ANDT-43")
@@ -40,6 +41,7 @@ public class NativeTests extends AbstractTest {
         ExtendedWebElement okButtonProduct = productPage.rateProduct();
 
         Assert.assertTrue(okButtonProduct.isDisplayed(), "OK button on product page is not displayed");
+        takeScreenshot();
 
         okButtonProduct.click();
     }
@@ -52,6 +54,7 @@ public class NativeTests extends AbstractTest {
 
         DrawingService drawingService = new DrawingService(getDriver());
         boolean isDrawingChanged = drawingService.isDrawingChanged(drawingPage.getDrawingBackground());
+        takeScreenshot();
 
         Assert.assertTrue(isDrawingChanged, "The drawing was not successfully changed.");
     }
@@ -69,6 +72,7 @@ public class NativeTests extends AbstractTest {
 
         String actualLatitude = geoLocationService.getLatitude(geoLocationPage.getLatitudeElement());
         String actualLongitude = geoLocationService.getLongitude(geoLocationPage.getLongitudeElement());
+        takeScreenshot();
 
         Assert.assertEquals(actualLatitude, expectedLatitude, "Latitude does not match the expected value");
         Assert.assertEquals(actualLongitude, expectedLongitude, "Longitude does not match the expected value");
@@ -79,6 +83,7 @@ public class NativeTests extends AbstractTest {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
         MoreMenuBasePage moreMenuPage = catalogPage.getBaseMenu().clickMoreButton();
         boolean isPageReseted = moreMenuPage.resetApplication();
+        takeScreenshot();
 
         Assert.assertTrue(isPageReseted, "Rested Application");
     }
@@ -88,9 +93,13 @@ public class NativeTests extends AbstractTest {
         CatalogBasePage catalogPage = initPage(getDriver(), CatalogBasePage.class);
 
         catalogPage.sortByNameAscending();
+        takeScreenshot();
+
         Assert.assertTrue(catalogPage.isSortedByNameAscending(), "Products are not sorted by name in ascending order");
 
         catalogPage.sortByNameDescending();
+        takeScreenshot();
+
         Assert.assertTrue(catalogPage.isSortedByNameDescending(), "Products are not sorted by name in descending order");
     }
 
@@ -112,6 +121,7 @@ public class NativeTests extends AbstractTest {
        String valueInTheCart = cartPage.getValue();
        boolean isQuantityTheSame = valueInTheCart.equals(valueOnProductPage);
        softAssert.assertTrue(isQuantityTheSame, "Quantity in the cart is not the same as on the product page");
+       takeScreenshot();
 
        softAssert.assertAll();
 
@@ -125,6 +135,8 @@ public class NativeTests extends AbstractTest {
         WebBasePage webPage = aboutPage.clickLink();
 
         boolean pageOpened = webPage.isPageOpened();
+        takeScreenshot();
+
         Assert.assertTrue(pageOpened, "Redirection was unsuccessful");
     }
     @TestCaseKey("ANDT-50")
@@ -134,6 +146,7 @@ public class NativeTests extends AbstractTest {
         List<String> addedProducts = catalogPage.addTwoRandomProductsWithRandomColorsToCart();
 
         CartBasePage cartPage = catalogPage.getBaseMenu().clickCartButton();
+        takeScreenshot();
 
         Assert.assertTrue(cartPage.areProductsInCart(cartPage.getProductNames(), addedProducts), "Not all products are present in the cart");
     }
