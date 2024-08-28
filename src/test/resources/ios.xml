@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="NTIOS">
+    <parameter name="suiteOwner" value="MKalenik"/>
+    <parameter name="jenkinsJobName" value="iOS-test"/>
+    <parameter name="jenkinsJobType" value="Native"/>
+    <parameter name="jenkinsEnvironments" value="TEST"/>
+    <test name="Native Test">
+        <classes>
+            <class name="com.solvd.NativeTests" />
+        </classes>
+    </test>
+</suite>

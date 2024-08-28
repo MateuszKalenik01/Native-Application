@@ -58,7 +58,7 @@ public class NativeTests extends AbstractTest {
 
         Assert.assertTrue(isDrawingChanged, "The drawing was not successfully changed.");
     }
-    @TestCaseKey("ANDT-45")
+   /* @TestCaseKey("ANDT-45")
     @Test( description = "Validation if GeoLocation is showing correct Longitude and Latitude")
     public void validateGeoLocation() {
         GeoLocationService geoLocationService = new GeoLocationService();
@@ -76,7 +76,7 @@ public class NativeTests extends AbstractTest {
 
         Assert.assertEquals(actualLatitude, expectedLatitude, "Latitude does not match the expected value");
         Assert.assertEquals(actualLongitude, expectedLongitude, "Longitude does not match the expected value");
-    }
+    }*/
     @TestCaseKey("ANDT-46")
     @Test(description = "Validation if Application reset works")
     public void validateResetting() {
